@@ -4,10 +4,9 @@ import java.awt.event.KeyEvent;
 
 public class Movimiento {
   private HashSet<Integer> teclasActivas = new HashSet<Integer>();
-  private boolean crearMis = false;
   private boolean reinMis = true;
-  private boolean reinP = true;
-  private boolean reinR = true;
+  private boolean reinP   = true;
+  private boolean reinR   = true;
 
   public Movimiento() {}
 
@@ -23,55 +22,36 @@ public class Movimiento {
     });
   }
 
-  public void leerTeclado(gameManager gm) {
+  // Devuelve el estado de todas las teclas relevantes para este frame.
+  // Las acciones de un solo disparo (disparar, pausa, reiniciar) se consumen aqui.
+  public EstadoEntrada leerTeclado() {
     boolean fPresionada = teclasActivas.contains(KeyEvent.VK_F);
-    if (fPresionada && reinMis) {
-      crearMis = true;
-    }
-    if (!fPresionada) {
-      reinMis = true;
-    }
+    boolean disparar = fPresionada && reinMis;
+    if (disparar)   reinMis = false;
+    if (!fPresionada) reinMis = true;
 
     boolean pPresionada = teclasActivas.contains(KeyEvent.VK_P);
-    if (pPresionada && !gm.isGameOver() && reinP) {
-      gm.alternarPausa();
-      reinP = false;
-    }
-    if (!pPresionada) {
-      reinP = true;
-    }
+    boolean pausa = pPresionada && reinP;
+    if (pausa)      reinP = false;
+    if (!pPresionada) reinP = true;
 
     boolean rPresionada = teclasActivas.contains(KeyEvent.VK_R);
-    if (rPresionada && gm.isGameOver() && reinR) {
-      gm.reiniciar();
-      reinR = false;
-    }
-    if (!rPresionada) {
-      reinR = true;
-    }
-  }
+    boolean reiniciar = rPresionada && reinR;
+    if (reiniciar)  reinR = false;
+    if (!rPresionada) reinR = true;
 
-  public boolean consultarYConsumirDisparo() {
-    if (crearMis) {
-      crearMis = false;
-      reinMis = false;
-      return true;
-    }
-    return false;
+    boolean izq = teclasActivas.contains(KeyEvent.VK_A) || teclasActivas.contains(KeyEvent.VK_LEFT);
+    boolean der  = teclasActivas.contains(KeyEvent.VK_D) || teclasActivas.contains(KeyEvent.VK_RIGHT);
+    boolean arr  = teclasActivas.contains(KeyEvent.VK_W) || teclasActivas.contains(KeyEvent.VK_UP);
+    boolean aba  = teclasActivas.contains(KeyEvent.VK_S) || teclasActivas.contains(KeyEvent.VK_DOWN);
+
+    return new EstadoEntrada(izq, der, arr, aba, disparar, pausa, reiniciar);
   }
 
   public void resetear() {
     teclasActivas.clear();
-    crearMis = false;
     reinMis = true;
-    reinP = true;
-    reinR = true;
-  }
-
-  public void aplicarMovimiento(Pucara p) {
-    if (teclasActivas.contains(KeyEvent.VK_A) || teclasActivas.contains(KeyEvent.VK_LEFT)) p.moverIzq();
-    if (teclasActivas.contains(KeyEvent.VK_D) || teclasActivas.contains(KeyEvent.VK_RIGHT)) p.moverDer();
-    if (teclasActivas.contains(KeyEvent.VK_W) || teclasActivas.contains(KeyEvent.VK_UP)) p.moverArr();
-    if (teclasActivas.contains(KeyEvent.VK_S) || teclasActivas.contains(KeyEvent.VK_DOWN)) p.moverAba();
+    reinP   = true;
+    reinR   = true;
   }
 }

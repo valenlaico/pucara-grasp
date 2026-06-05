@@ -1,16 +1,17 @@
 import java.util.Random;
 
-public class Shooter extends Enemigo { 
-  
-  private Random rand = new Random();
-  private int xTarget;
-  
+public class Shooter extends Enemigo {
+
+  private Random rand    = new Random();
+  private int    xTarget;
+  private int    fc      = 0;
+
   Shooter(int xPos, int yPos, int velocidad) {
     super(xPos, yPos, velocidad);
-    this.imagen = loadImage("shooter.png");
+    this.imagen  = loadImage("shooter.png");
     this.xTarget = xEnemigo;
   }
-  
+
   @Override
   public void actualizar() {
     if ((xTarget + abs(velocidad) >= xEnemigo) && (xEnemigo >= xTarget - abs(velocidad))) {
@@ -21,7 +22,14 @@ public class Shooter extends Enemigo {
       xEnemigo += velocidad;
     }
   }
-  
+
+  // Devuelve true una vez cada 90 frames: senial para que GestorProyectiles cree el misil.
+  public boolean debeDisparar() {
+    fc++;
+    if (fc >= 90) { fc = 0; return true; }
+    return false;
+  }
+
   public void dibujar() {
     if (imagen != null) {
       image(imagen, xEnemigo, yEnemigo, 60, 60);
@@ -33,9 +41,5 @@ public class Shooter extends Enemigo {
       ellipse(xEnemigo - 10, yEnemigo - 5, 10, 10);
       ellipse(xEnemigo + 10, yEnemigo - 5, 10, 10);
     }
-  }
-  
-  public Misil crearMis() {
-    return new Misil(this.xEnemigo, this.yEnemigo + 20, true);
   }
 }

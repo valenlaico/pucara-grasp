@@ -12,22 +12,14 @@ void setup() {
   imageMode(CENTER);
 
   movimiento = new Movimiento();
-  movimiento.registrarListener(this);   
+  movimiento.registrarListener(this);
   gm = new gameManager(movimiento);
 }
 
 void draw() {
-  background(0);    
+  background(0);
   strokeWeight(2);
-  movimiento.leerTeclado(gm);
-  
-  if (!gm.isGameOver() && !gm.isPausa()) {
-    gm.update();
-    gm.visual();
-  } else if (gm.isPausa()) {
-    gm.visual();
-    gm.drawPausa();
-  } else {
-    gm.drawGameOver();
-  }
+  EstadoEntrada entrada = movimiento.leerTeclado();
+  gm.update(entrada);
+  gm.visual();
 }
