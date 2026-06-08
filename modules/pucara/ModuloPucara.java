@@ -62,19 +62,31 @@ public class ModuloPucara implements ModuloJuego {
       movimiento.registrarListener(app);
     }
     if (gm == null) return;
+
+    boolean eraGameOver = gm.isGameOver();
     gm.update(movimiento.leerTeclado());
-    // No se finaliza automáticamente al detectar game over: el gm.visual() muestra la
-    // pantalla de resultado mientras el estado sigue en EN_EJECUCION. El jugador puede
-    // reiniciar con R o volver al lobby con Q (HomeJuego.manejarTecla → finalizar()).
+
+    if (eraGameOver && !gm.isGameOver()) {
+      // Reinicio con R mientras el módulo estaba pausado (ESC previo durante game over)
+      if ("PAUSADO".equals(estadoActual.getNombre())) {
+        try { reanudar(); } catch (EstadoInvalidoException e) { /* ignorar */ }
+      }
+    } else if (gm.isGameOver() && "PAUSADO".equals(estadoActual.getNombre())) {
+      // ESC durante game over → volver al lobby
+      try { finalizar(); }
+      catch (EstadoInvalidoException e) { notificar(ModuloEvento.Tipo.ERROR); }
+    }
   }
 
   public void dibujar(PApplet app) {
+    app.pushStyle();
     app.background(0);
     app.strokeWeight(2);
     app.ellipseMode(PApplet.CENTER);
     app.rectMode(PApplet.CENTER);
     app.imageMode(PApplet.CENTER);
     if (gm != null) gm.visual(app);
+    app.popStyle();
   }
 
   // ── Estadísticas ─────────────────────────────────────────────────────────
