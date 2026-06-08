@@ -1,9 +1,6 @@
-import java.util.Random;
-
 public class GestorProyectiles {
   private ArrayList<Misil> misiles = new ArrayList<Misil>();
   private ArrayList<Bomba>  bombas = new ArrayList<Bomba>();
-  private Random rand = new Random();
 
   public void crearMisilJugador(int x, int y) {
     misiles.add(new Misil(x, y - 30, false));
@@ -13,8 +10,20 @@ public class GestorProyectiles {
     misiles.add(new Misil(x, y + 20, true));
   }
 
-  public void crearBomba() {
-    bombas.add(new Bomba(rand.nextInt(50, width - 50), rand.nextInt(height - 150, height - 50)));
+  public void crearBomba(int x, int y) {
+    bombas.add(new Bomba(x, y));
+  }
+
+  // Busca el misil del jugador que golpeó al enemigo, lo elimina y devuelve true.
+  // SistemaColisiones solo detecta; GestorProyectiles decide qué eliminar.
+  public boolean eliminarMisilQueGolpeo(SistemaColisiones sc, Enemigo e) {
+    for (int j = misiles.size() - 1; j >= 0; j--) {
+      if (sc.hayColisionMisilJugadorConEnemigo(misiles.get(j), e)) {
+        misiles.remove(j);
+        return true;
+      }
+    }
+    return false;
   }
 
   public void update() {

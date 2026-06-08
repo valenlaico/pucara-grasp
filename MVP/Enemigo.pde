@@ -22,7 +22,11 @@ public abstract class Enemigo {
     return (yEnemigo > height + 50) || (yEnemigo < -50) || (xEnemigo > width + 100) || (xEnemigo < -100);
   }
   
+  public boolean debeDisparar()        { return false; }
+  public boolean debeLanzarBomba()     { return false; }
+  public int[]   calcularPosicionBomba() { return new int[]{0, 0}; }
+
   public abstract void actualizar();
-  
-  public abstract void dibujar(); 
+
+  public abstract void dibujar();
 }

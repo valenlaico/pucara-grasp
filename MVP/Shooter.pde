@@ -24,6 +24,7 @@ public class Shooter extends Enemigo {
   }
 
   // Devuelve true una vez cada 90 frames: señal para que GestorProyectiles cree el misil.
+  @Override
   public boolean debeDisparar() {
     fc++;
     if (fc >= 90) { fc = 0; return true; }

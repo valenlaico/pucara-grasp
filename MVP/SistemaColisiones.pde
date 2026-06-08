@@ -1,16 +1,9 @@
 public class SistemaColisiones {
 
-  // Verifica si un misil del jugador impacto este enemigo.
-  // Si hay impacto, elimina el misil de la lista y devuelve true.
-  public boolean chequearMisilJugadorVsEnemigo(ArrayList<Misil> misiles, Enemigo e) {
-    for (int j = misiles.size() - 1; j >= 0; j--) {
-      Misil mis = misiles.get(j);
-      if (!mis.esEnemigo() && dist(mis.getX(), mis.getY(), e.getX(), e.getY()) < 35) {
-        misiles.remove(j);
-        return true;
-      }
-    }
-    return false;
+  // Detección pura: devuelve true si este misil del jugador impacta al enemigo.
+  // No modifica ninguna lista; GestorProyectiles es responsable de la eliminación.
+  public boolean hayColisionMisilJugadorConEnemigo(Misil mis, Enemigo e) {
+    return !mis.esEnemigo() && dist(mis.getX(), mis.getY(), e.getX(), e.getY()) < 35;
   }
 
   // Devuelve true si algun misil enemigo impacto la pucara.

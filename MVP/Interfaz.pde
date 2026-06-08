@@ -31,16 +31,17 @@ public class Interfaz {
     text("Presiona P para despausar", width / 2, height / 2 + 80);
   }
 
-  public void dibujarGameOver(String motivo, int score) {
+  public void dibujarGameOver(String motivo, int score, float precision) {
     background(50, 0, 0);
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(42);
-    text("GAME OVER", width / 2, height / 2 - 50);
+    text("GAME OVER", width / 2, height / 2 - 60);
     textSize(22);
-    text(motivo, width / 2, height / 2);
-    text("Score final: " + score, width / 2, height / 2 + 35);
+    text(motivo, width / 2, height / 2 - 15);
+    text("Score final: " + score, width / 2, height / 2 + 20);
+    text("Precisión: " + nf(precision * 100, 0, 1) + "%", width / 2, height / 2 + 55);
     textSize(18);
-    text("Presiona R para reiniciar", width / 2, height / 2 + 80);
+    text("Presiona R para reiniciar", width / 2, height / 2 + 95);
   }
 }

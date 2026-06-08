@@ -58,7 +58,7 @@ public class gameManager {
         return;
       }
 
-      if (sistemaColisiones.chequearMisilJugadorVsEnemigo(gestorProyectiles.getMisiles(), e)) {
+      if (gestorProyectiles.eliminarMisilQueGolpeo(sistemaColisiones, e)) {
         enemigos.remove(i);
         gestorScore.registrarImpacto();
         gestorScore.registrarEnemigo();
@@ -67,10 +67,8 @@ public class gameManager {
         continue;
       }
 
-      if (e instanceof Shooter) {
-        if (((Shooter) e).debeDisparar()) {
-          gestorProyectiles.crearMisilEnemigo(e.getX(), e.getY());
-        }
+      if (e.debeDisparar()) {
+        gestorProyectiles.crearMisilEnemigo(e.getX(), e.getY());
       }
 
       if (e.salioDePantalla() || e.getY() >= base.getY() - base.getH() / 2) {
@@ -80,8 +78,9 @@ public class gameManager {
             return;
           }
         }
-        if (e instanceof Bomber) {
-          gestorProyectiles.crearBomba();
+        if (e.debeLanzarBomba()) {
+          int[] pos = e.calcularPosicionBomba();
+          gestorProyectiles.crearBomba(pos[0], pos[1]);
         }
         enemigos.remove(i);
       }
@@ -111,7 +110,7 @@ public class gameManager {
 
   public void visual() {
     if (gameOver) {
-      interfaz.dibujarGameOver(motivoGameOver, gestorScore.getScore());
+      interfaz.dibujarGameOver(motivoGameOver, gestorScore.getScore(), gestorScore.getPrecision());
       return;
     }
     base.dibujar();
