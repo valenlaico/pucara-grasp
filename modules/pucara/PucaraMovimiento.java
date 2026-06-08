@@ -1,10 +1,13 @@
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import processing.core.PApplet;
 
 public class PucaraMovimiento {
-  private HashSet<Integer> teclasActivas = new HashSet<Integer>();
+  private Set<Integer> teclasActivas = Collections.synchronizedSet(new HashSet<Integer>());
+  private KeyAdapter   keyListener;
   private boolean reinMis = true;
   private boolean reinP   = true;
   private boolean reinR   = true;
@@ -16,10 +19,19 @@ public class PucaraMovimiento {
   // independiente, lo que permite multi-tecla simultáneo dentro del módulo.
   public void registrarListener(PApplet sketch) {
     java.awt.Component componente = (java.awt.Component) sketch.getSurface().getNative();
-    componente.addKeyListener(new KeyAdapter() {
+    keyListener = new KeyAdapter() {
       public void keyPressed(KeyEvent evento)  { teclasActivas.add(evento.getKeyCode()); }
       public void keyReleased(KeyEvent evento) { teclasActivas.remove(evento.getKeyCode()); }
-    });
+    };
+    componente.addKeyListener(keyListener);
+  }
+
+  public void deregistrarListener(PApplet sketch) {
+    if (keyListener != null && sketch != null) {
+      java.awt.Component componente = (java.awt.Component) sketch.getSurface().getNative();
+      componente.removeKeyListener(keyListener);
+      keyListener = null;
+    }
   }
 
   public PucaraEstadoEntrada leerTeclado() {

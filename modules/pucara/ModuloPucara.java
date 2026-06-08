@@ -62,15 +62,10 @@ public class ModuloPucara implements ModuloJuego {
       movimiento.registrarListener(app);
     }
     if (gm == null) return;
-
-    boolean eraGameOver = gm.isGameOver();
     gm.update(movimiento.leerTeclado());
-
-    // Detectar transición a game over y notificar al lobby
-    if (!eraGameOver && gm.isGameOver()) {
-      try { finalizar(); }
-      catch (EstadoInvalidoException e) { notificar(ModuloEvento.Tipo.ERROR); }
-    }
+    // No se finaliza automáticamente al detectar game over: el gm.visual() muestra la
+    // pantalla de resultado mientras el estado sigue en EN_EJECUCION. El jugador puede
+    // reiniciar con R o volver al lobby con Q (HomeJuego.manejarTecla → finalizar()).
   }
 
   public void dibujar(PApplet app) {
@@ -107,8 +102,9 @@ public class ModuloPucara implements ModuloJuego {
 
   // El lobby llama a reset() para permitir jugar de nuevo sin recargar el módulo.
   public void reset() {
+    if (movimiento != null) movimiento.deregistrarListener(app);
     if (gm != null) gm.reiniciar();
     estadoActual = new NoIniciadoState();
-    app = null;  // fuerza re-registro del KeyAdapter en la próxima sesión
+    app = null;
   }
 }

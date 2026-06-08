@@ -48,6 +48,6 @@ public class PucaraInterfaz {
     app.text("Score final: " + score, app.width / 2, app.height / 2 + 20);
     app.text("Precisión: " + String.format("%.1f", precision * 100) + "%", app.width / 2, app.height / 2 + 55);
     app.textSize(18);
-    app.text("Presiona R para reiniciar", app.width / 2, app.height / 2 + 95);
+    app.text("R reiniciar  |  Q volver al lobby", app.width / 2, app.height / 2 + 95);
   }
 }

@@ -30,7 +30,7 @@ public class PucaraBomba {
       fc += 1;
     }
     if (estaCayendo) {
-      if (target >= yBomba) exploto = true;
+      if (yBomba >= target) exploto = true;
       else                  yBomba += 10;
     }
   }
