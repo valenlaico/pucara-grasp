@@ -100,7 +100,7 @@ public class ModuloPucara implements ModuloJuego {
 
   private void notificar(ModuloEvento.Tipo tipo) {
     ModuloEvento evento = new ModuloEvento(tipo, getNombreModulo());
-    for (IModuloObserver o : observers) o.onEventoModulo(evento);
+    for (IModuloObserver o : new ArrayList<>(observers)) o.onEventoModulo(evento);
   }
 
   // ── Reset ────────────────────────────────────────────────────────────────
