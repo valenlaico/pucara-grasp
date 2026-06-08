@@ -4,14 +4,14 @@ public class PucaraGestorOleadas {
   private Random rand       = new Random();
   private int framesPartida = 0;
   private int oleadaActual  = 1;
-  private int dificultad    = 60;
+  private int dificultad    = 90;
   private int fc            = 0;
 
   public String update() {
     framesPartida++;
 
-    if      (framesPartida < 120 * 60) oleadaActual = 1;
-    else if (framesPartida < 270 * 60) oleadaActual = 2;
+    if      (framesPartida <  60 * 60) oleadaActual = 1;
+    else if (framesPartida < 120 * 60) oleadaActual = 2;
     else                               oleadaActual = 3;
 
     fc++;
@@ -49,7 +49,7 @@ public class PucaraGestorOleadas {
   public void reiniciar() {
     framesPartida = 0;
     oleadaActual  = 1;
-    dificultad    = 60;
+    dificultad    = 90;
     fc            = 0;
   }
 }

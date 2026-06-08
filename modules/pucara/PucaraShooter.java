@@ -36,9 +36,12 @@ public class PucaraShooter extends PucaraEnemigo {
 
   @Override
   public void dibujar(PApplet app) {
-    if (imagen == null) imagen = app.loadImage("pucara_shooter.png");
+    if (imagen == null) {
+      imagen = app.loadImage("pucara_shooter.png");
+      if (imagen != null) imagen.resize(60, 60);
+    }
     if (imagen != null) {
-      app.image(imagen, xEnemigo, yEnemigo, 60, 60);
+      app.image(imagen, xEnemigo, yEnemigo);
     } else {
       app.stroke(0);
       app.fill(255, 150, 0);

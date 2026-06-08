@@ -4,7 +4,7 @@ import processing.core.PImage;
 public class PucaraJugador {
   private int    xPucara;
   private int    yPucara;
-  private int    velocidad = 3;
+  private int    velocidad = 5;
   private PImage imagen;
   private int    ancho;
   private int    alto;
@@ -28,9 +28,12 @@ public class PucaraJugador {
   }
 
   public void dibujarPucara(PApplet app) {
-    if (imagen == null) imagen = app.loadImage("pucara_avion.png");
+    if (imagen == null) {
+      imagen = app.loadImage("pucara_avion.png");
+      if (imagen != null) imagen.resize(60, 60);
+    }
     if (imagen != null) {
-      app.image(imagen, xPucara, yPucara, 60, 60);
+      app.image(imagen, xPucara, yPucara);
     } else {
       app.stroke(255);
       app.fill(0, 255, 0);

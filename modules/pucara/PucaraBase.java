@@ -1,9 +1,11 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class PucaraBase {
   private int x, y, w, h;
-  private int vidaMax, vida;
+  private int    vidaMax, vida;
   private boolean destruida;
+  private PImage  imagen;
 
   // ancho y alto reemplazan los globales width/height de Processing
   PucaraBase(int ancho, int alto, int altura, int vidaMaxima) {
@@ -34,15 +36,18 @@ public class PucaraBase {
   public void reiniciar() { vida = vidaMax; destruida = false; }
 
   public void dibujar(PApplet app) {
-    if (!destruida) {
-      app.stroke(0, 200, 255);
-      app.fill(0, 80, 120);
-    } else {
-      app.stroke(100);
-      app.fill(40);
+    if (imagen == null) {
+      imagen = app.loadImage("pucara_base.png");
+      if (imagen != null) imagen.resize(w, h);
     }
-    app.strokeWeight(2);
-    app.rect(x, y, w, h);
+    if (imagen != null) {
+      app.image(imagen, x, y);
+    } else {
+      if (!destruida) { app.stroke(0, 200, 255); app.fill(0, 80, 120); }
+      else            { app.stroke(100);          app.fill(40); }
+      app.strokeWeight(2);
+      app.rect(x, y, w, h);
+    }
 
     if (!destruida) {
       float pct  = (float) vida / vidaMax;

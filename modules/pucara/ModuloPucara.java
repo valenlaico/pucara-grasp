@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 import java.util.ArrayList;
 
 public class ModuloPucara implements ModuloJuego {
@@ -9,6 +10,7 @@ public class ModuloPucara implements ModuloJuego {
   private ContextoJuego     ctx;
   private EstadoJuego       estadoActual = new NoIniciadoState();
   private ArrayList<IModuloObserver> observers = new ArrayList<IModuloObserver>();
+  private PImage            imagenFondo;
 
   // ── Metadata ────────────────────────────────────────────────────────────────
   public String getNombreModulo() { return "Pucara"; }
@@ -80,7 +82,13 @@ public class ModuloPucara implements ModuloJuego {
 
   public void dibujar(PApplet app) {
     app.pushStyle();
-    app.background(0);
+    if (imagenFondo == null) {
+      imagenFondo = app.loadImage("pucara_fondo.png");
+      if (imagenFondo != null) imagenFondo.resize(app.width, app.height);
+    }
+    app.imageMode(PApplet.CORNER);
+    if (imagenFondo != null) app.image(imagenFondo, 0, 0);
+    else                     app.background(0);
     app.strokeWeight(2);
     app.ellipseMode(PApplet.CENTER);
     app.rectMode(PApplet.CENTER);
@@ -117,6 +125,7 @@ public class ModuloPucara implements ModuloJuego {
     if (movimiento != null) movimiento.deregistrarListener(app);
     if (gm != null) gm.reiniciar();
     estadoActual = new NoIniciadoState();
-    app = null;
+    app        = null;
+    imagenFondo = null;
   }
 }
