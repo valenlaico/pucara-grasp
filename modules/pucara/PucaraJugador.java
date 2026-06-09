@@ -21,10 +21,22 @@ public class PucaraJugador {
   public int getY() { return yPucara; }
 
   public void aplicarMovimiento(PucaraEstadoEntrada entrada) {
-    if (entrada.moverIzq && xPucara - 30 > 0)              xPucara -= velocidad;
-    if (entrada.moverDer && xPucara + 30 < ancho)          xPucara += velocidad;
+    if (entrada.moverIzq)                                  xPucara -= velocidad;
+    if (entrada.moverDer)                                  xPucara += velocidad;
     if (entrada.moverArr && yPucara - 30 > 0)              yPucara -= velocidad;
-    if (entrada.moverAba && yPucara + 30 < alto - 40)      yPucara += velocidad;
+    if (entrada.moverAba && yPucara + 30 < alto - 50)      yPucara += velocidad;
+  }
+  
+  public boolean salioDePantalla(int ancho) {
+    return (xPucara > ancho + 30) || (xPucara < -30);
+  }
+  
+  public void cambiarLado(int ancho) {
+    if (xPucara > 0) {
+      xPucara = -30;
+    } else {
+      xPucara = ancho + 30;
+    }
   }
 
   public void dibujarPucara(PApplet app) {

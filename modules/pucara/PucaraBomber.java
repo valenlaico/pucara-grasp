@@ -28,7 +28,7 @@ public class PucaraBomber extends PucaraEnemigo {
   @Override
   public int[] calcularPosicionBomba() {
     int x = rand.nextInt(50, ancho - 50);
-    int y = rand.nextInt(150, alto - 200);
+    int y = rand.nextInt(alto - 50, alto - 100);
     return new int[]{x, y};
   }
 

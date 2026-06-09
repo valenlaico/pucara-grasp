@@ -40,6 +40,9 @@ public class PucaraGameManager {
 
     // 1. Mover pucara
     p.aplicarMovimiento(entrada);
+    if (p.salioDePantalla(ancho)) {
+      p.cambiarLado(ancho);
+    }
 
     // 2. Disparo del jugador
     if (entrada.disparar) {
